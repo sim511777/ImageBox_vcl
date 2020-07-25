@@ -3,9 +3,10 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "UnitFormMain.h"
+#include "FrmMain.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "ImageBox"
 #pragma resource "*.dfm"
 TFormMain *FormMain;
 //---------------------------------------------------------------------------

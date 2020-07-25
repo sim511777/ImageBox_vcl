@@ -13,4 +13,11 @@ object FormMain: TFormMain
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
+  object imgBox: TImageBox
+    Left = 8
+    Top = 8
+    Width = 81
+    Height = 81
+    Color = clFuchsia
+  end
 end

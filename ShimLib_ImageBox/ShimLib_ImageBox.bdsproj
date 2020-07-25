@@ -14,7 +14,7 @@
     </Source>
     <BCBPROJECT>
       <project version="10.0">
-        <property category="build.config" name="active" value="0"/>
+        <property category="build.config" name="active" value="1"/>
         <property category="build.config" name="count" value="1"/>
         <property category="build.config" name="excludedefaultforzero" value="0"/>
         <property category="build.config.0" name="builddir" value="Debug"/>
@@ -29,7 +29,7 @@
         <property category="build.config.1" name="type" value="Toolset"/>
         <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
         <property category="build.node" name="name" value="ShimLib_ImageBox.bpl"/>
-        <property category="build.node" name="packages" value="rtl"/>
+        <property category="build.node" name="packages" value="rtl;vcl"/>
         <property category="build.node" name="sparelibs" value="rtl.lib vcl.lib"/>
         <property category="build.node" name="use_packages" value="1"/>
         <property category="build.platform" name="active" value="win32"/>
@@ -149,6 +149,8 @@
         <FILE FILENAME="ShimLib_ImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ShimLib_ImageBox" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="rtl.bpi" CONTAINERID="BPITool" LOCALCOMMAND="" UNITNAME="rtl" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="ShimLib_ImageBox.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="ShimLib_ImageBox.res" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="UnitImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitImageBox" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="vcl.bpi" CONTAINERID="BPITool" LOCALCOMMAND="" UNITNAME="vcl" FORMNAME="" DESIGNCLASS=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
@@ -205,5 +207,6 @@
         </Linker>
       </IDEOPTIONS>
     </BCBPROJECT>
+    <buildevents/>
   </CPlusPlusBuilder.Personality>
 </BorlandProject>

@@ -1,20 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <PersonalityInfo>
-    <Option>
-      <Option Name="Personality">Default.Personality</Option>
-      <Option Name="ProjectType"></Option>
-      <Option Name="Version">1.0</Option>
-      <Option Name="GUID">{18E658D3-4AB8-46DF-B9E3-5A34631887DC}</Option>
-    </Option>
-  </PersonalityInfo>
-  <Default.Personality>
-    
-    <Projects>
+	<PersonalityInfo>
+		<Option>
+			<Option Name="Personality">Default.Personality</Option>
+			<Option Name="ProjectType"></Option>
+			<Option Name="Version">1.0</Option>
+			<Option Name="GUID">{18E658D3-4AB8-46DF-B9E3-5A34631887DC}</Option>
+		</Option>
+	</PersonalityInfo>
+	<Default.Personality>  <Projects>
       <Projects Name="ImageBox_Test.exe">ImageBox_Test\ImageBox_Test.bdsproj</Projects>
       <Projects Name="ShimLib_ImageBox.bpl">ShimLib_ImageBox\ShimLib_ImageBox.bdsproj</Projects>
       <Projects Name="Targets">ImageBox_Test.exe ShimLib_ImageBox.bpl</Projects>
     </Projects>
-    <Dependencies/>
+    <Dependencies>
+      <Dependency GUID="{81B6DDBD-CA75-4D59-B992-00F4539EFD3E}">
+        <Dependency GUID="{1E8B9E08-6771-45D0-AFB3-8EEA95718C03}"/>
+      </Dependency>
+    </Dependencies>
   </Default.Personality>
 </BorlandProject>
