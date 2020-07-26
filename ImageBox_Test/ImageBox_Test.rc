@@ -1,0 +1,7 @@
+#include "resource.h"
+
+IDB_LENNA_8               BITMAP                  "Resources\\Lenna_8.bmp"
+IDB_LENNA_24               BITMAP                  "Resources\\Lenna_24.bmp"
+//IDB_LENNA_32            BITMAP                  "Resources\\Lenna_24.bmp"
+IDB_CHESS               BITMAP                  "Resources\\Chess.bmp"
+
