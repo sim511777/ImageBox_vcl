@@ -251,8 +251,8 @@ void __fastcall TImageBox::Paint(void)
 
     CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, GetZoomFactor(), TColorToBGRA(Color));
     Canvas->Draw(0, 0, dispBmp);
-    
-    TCustomControl::Paint();
+
+    //TCustomControl::Paint();
 }
 //---------------------------------------------------------------------------
 
