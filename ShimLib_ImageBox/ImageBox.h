@@ -6,6 +6,7 @@
 #include <SysUtils.hpp>
 #include <Classes.hpp>
 #include <Controls.hpp>
+//#include <ImageCanvas.h>
 //---------------------------------------------------------------------------
 struct TPointf
 {
