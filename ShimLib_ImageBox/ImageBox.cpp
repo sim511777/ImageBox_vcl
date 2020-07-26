@@ -243,6 +243,7 @@ void __fastcall TImageBox::Paint(void)
 {
     if (ComponentState.Contains(csDesigning)) {
         Canvas->Brush->Color = Color;
+        Canvas->Font = Font;
         Canvas->FillRect(ClientRect);
         Canvas->TextOut(3, 3, Name);
         return;

@@ -96,6 +96,7 @@ public:
 __published:
     __property Color;
     __property Align;
+    __property Font;
 };
 //---------------------------------------------------------------------------
 #endif
