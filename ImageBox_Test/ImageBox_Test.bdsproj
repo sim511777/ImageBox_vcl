@@ -159,6 +159,7 @@
         <FILE FILENAME="Util.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Util" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Util.h"/>
         <FILE FILENAME="ImageBox_Test.rc" CONTAINERID="RCCompiler" LOCALCOMMAND="" UNITNAME="ImageBox_Test.rc" FORMNAME="ImageBox_Test.res" DESIGNCLASS=""/>
         <FILE FILENAME="resource.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="Todo.txt" CONTAINERID="" LOCALCOMMAND=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>

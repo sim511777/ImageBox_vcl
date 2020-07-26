@@ -1,0 +1,9 @@
+﻿1. 확대시 픽셀값 표시 기능
+2. 중선선 표시 기능
+3. 마우스 커서 정보 표시 기능
+4. 32비트 bmp 리소스 왜 컴파일 안되는지
+5. 프로퍼티 노출
+  - Color, Font, Align, Panel과 비교하여 필요한 여러것들
+6. 이벤트 노출
+  - Paint, Mouse up/down/move, Panel 과 비교하여 필요한 여러것들
+7. TImageCanvas 클래스 추가
