@@ -22,6 +22,12 @@
 static inline void ValidCtrCheck(TImageBox *) {
     new TImageBox(NULL);
 }
+namespace Imagebox {
+    void __fastcall PACKAGE Register() {
+         TComponentClass classes[1] = {__classid(TImageBox)};
+         RegisterComponents("Samples", classes, 0);
+    }
+}
 //---------------------------------------------------------------------------
 
 String FormatString(const TCHAR* format, ...) {
@@ -216,16 +222,12 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y) {
         ptDown = TPoint(X, Y);
         Invalidate();
     } else {
-//        Graphics::TBitmap* bmp = new Graphics::TBitmap();
-//        bmp->Width = 200;
-//        bmp->Height = Font->Height;
-//            using (Graphics bg = Graphics.FromImage(bmp)) {
-//                DrawCursorInfo(bg, 0, 0);
-//            }
-//            using (Graphics g = CreateGraphics()) {
-//                g.DrawImage(bmp, 2, 2);
-//            }
-//        delete bmp;
+        Graphics::TBitmap* bmp = new Graphics::TBitmap();
+        bmp->Width = 200;
+        bmp->Height = -Font->Height;
+        DrawCursorInfo(bmp->Canvas, 0, 0);
+        Canvas->Draw(2, 2, bmp);
+        delete bmp;
     }
     TCustomControl::MouseMove(Shift, X, Y);
 }
@@ -266,6 +268,7 @@ void __fastcall TImageBox::Paint(void) {
     Canvas->Draw(0, 0, dispBmp);
     DrawPixelValue(&ic);
     DrawCenterLine(&ic);
+    DrawCursorInfo(Canvas, 2, 2);
 }
 //---------------------------------------------------------------------------
 
@@ -376,10 +379,18 @@ void TImageBox::DrawCenterLine(TImageCanvas* ic) {
     ic->DrawLine(clYellow, -0.5f, imgBh / 2.0f - 0.5f, imgBw - 0.5f, imgBh / 2.0f - 0.5f);
 }
 
-namespace Imagebox {
-    void __fastcall PACKAGE Register() {
-         TComponentClass classes[1] = {__classid(TImageBox)};
-         RegisterComponents("Samples", classes, 0);
-    }
+// 커서 정보 표시
+void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
+    TPointf ptImg = DispToImg(ptMove);
+    int ix = (int)ROUND(ptImg.x);
+    int iy = (int)ROUND(ptImg.y);
+    String colText = GetImagePixelValueText(ix, iy);
+    String zoomText = GetZoomText();
+    String text = FormatString("zoom=%s (%d,%d)=%s", zoomText, ix, iy, colText.c_str());
+    c->Brush->Color = clBlack;
+    TRect rect(ofsx, ofsy, ofsx + 200, ofsy - c->Font->Height);
+    c->FillRect(rect);
+    c->Font->Color = clWhite;
+    c->TextOut(ofsx, ofsy, text);
 }
 //---------------------------------------------------------------------------

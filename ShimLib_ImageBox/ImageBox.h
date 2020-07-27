@@ -76,6 +76,7 @@ private:
     int GetImagePixelValueColorIndex(int ix, int iy);
     String GetImagePixelValueText(int ix, int iy);
     void DrawCenterLine(TImageCanvas* ic);
+    void DrawCursorInfo(TCanvas* c, int ofsx, int ofsy);
 protected:
     //리사이즈 할때
     DYNAMIC void __fastcall Resize();
@@ -103,7 +104,6 @@ public:
 __published:
     __property Color;
     __property Align;
-    __property Font;
 };
 //---------------------------------------------------------------------------
 #endif

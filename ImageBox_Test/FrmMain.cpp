@@ -87,3 +87,4 @@ void __fastcall TFormMain::btnChessClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
