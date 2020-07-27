@@ -8,19 +8,33 @@
 
 #define MAX(x,y)      ( (x)>(y)?(x):(y) ) // 최대 값
 #define MIN(x,y)      ( (x)<(y)?(x):(y) ) // 최소 값
+#define ROUND(x) (floor(x + 0.5))
 
 #include "ImageBox.h"
+#include "ImageCanvas.h"
+
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 // ValidCtrCheck is used to assure that the components created do not have
 // any pure virtual functions.
 //
 
-static inline void ValidCtrCheck(TImageBox *)
-{
+static inline void ValidCtrCheck(TImageBox *) {
     new TImageBox(NULL);
 }
 //---------------------------------------------------------------------------
+
+String FormatString(const TCHAR* format, ...) {
+    va_list args;
+    va_start (args, format);
+
+    String text;
+    text.vprintf(format, args);
+
+    va_end (args);
+
+    return text;
+}
 
 // 이미지 버퍼를 디스플레이 버퍼에 복사
 void CopyImageBufferZoom(void* imgBuf, int imgBw, int imgBh, int bytepp, bool bufIsFloat, Graphics::TBitmap* dispBmp, int panx, int pany, double zoom, int bgColor) {
@@ -85,9 +99,7 @@ int TColorToBGRA(TColor color) {
 }
 //---------------------------------------------------------------------------
 
-__fastcall TImageBox::TImageBox(TComponent* Owner)
-    : TCustomControl(Owner)
-{
+__fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner) {
     DoubleBuffered = true;
         this->Align;
 
@@ -185,8 +197,7 @@ TPointf TImageBox::DispToImg(TPoint ptDisp) {
     return TPointf(imgX, imgY);
 }
 //---------------------------------------------------------------------------
-void __fastcall TImageBox::Resize()
-{
+void __fastcall TImageBox::Resize() {
     dispBmp->Width = MAX(ClientWidth, 64);
     dispBmp->Height = MAX(ClientHeight, 64);
     TCustomControl::Resize();
@@ -239,8 +250,7 @@ void __fastcall TImageBox::MouseWheelHandler(TMessage &Message) {
     TCustomControl::MouseWheelHandler(Message);
 }
 //---------------------------------------------------------------------------
-void __fastcall TImageBox::Paint(void)
-{
+void __fastcall TImageBox::Paint(void) {
     if (ComponentState.Contains(csDesigning)) {
         Canvas->Brush->Color = Color;
         Canvas->Font = Font;
@@ -249,17 +259,125 @@ void __fastcall TImageBox::Paint(void)
         return;
     }
 
-    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, GetZoomFactor(), TColorToBGRA(Color));
+    Canvas->Font = Font;
+    TImageCanvas ic(this, Canvas);
+    double zoom = GetZoomFactor();
+    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(Color));
     Canvas->Draw(0, 0, dispBmp);
-
-    //TCustomControl::Paint();
+    DrawPixelValue(&ic);
+    DrawCenterLine(&ic);
 }
 //---------------------------------------------------------------------------
 
-namespace Imagebox
-{
-    void __fastcall PACKAGE Register()
-    {
+// 픽셀값 표시 컬러
+// 픽셀값 표시 컬러
+TColor pseudo[8] = {
+    clWhite,    // 0~31
+    clAqua,     // 32~63
+    clBlue,     // 63~95
+    clYellow,   // 96~127
+    clMaroon,   // 128~159
+    clFuchsia,  // 160~191
+    clRed,      // 192~223
+    clBlack,    // 224~255
+};
+
+void TImageBox::DrawPixelValue(TImageCanvas* ic) {
+    if (imgBuf == NULL)
+        return;
+    double zoom = GetZoomFactor();
+    if (zoom < 16 || (imgBytepp != 1 && zoom < 48))
+        return;
+
+    int fontSize = 0;
+    if (imgBytepp == 1) {
+        if (zoom <= 17) fontSize = 6;
+        else if (zoom <= 25) fontSize = 8;
+        else fontSize = 10;
+    } else {
+        if (zoom <= 49) fontSize = 6;
+        else if (zoom <= 65) fontSize = 8;
+        else fontSize = 10;
+    }
+
+    String oldFontName = ic->canvas->Font->Name;
+    int oldFontSize = ic->canvas->Font->Size;
+    TBrushStyle oldBrushStyle = ic->canvas->Brush->Style;
+    ic->canvas->Font->Name = TEXT("arial");
+    ic->canvas->Font->Size = fontSize;
+    ic->canvas->Brush->Style = bsClear;
+    TPointf ptImgLT = DispToImg(TPoint(0, 0));
+    TPointf ptImgRB = DispToImg(TPoint(Width, Height));
+    int ix1 = (int)ROUND(ptImgLT.x);
+    int iy1 = (int)ROUND(ptImgLT.y);
+    int ix2 = (int)ROUND(ptImgRB.x);
+    int iy2 = (int)ROUND(ptImgRB.y);
+    ix1 = MAX(ix1, 0);
+    iy1 = MAX(iy1, 0);
+    ix2 = MIN(ix2, imgBw - 1);
+    iy2 = MIN(iy2, imgBh - 1);
+    for (int iy = iy1; iy <= iy2; iy++) {
+        for (int ix = ix1; ix <= ix2; ix++) {
+            String pixelValueText = GetImagePixelValueText(ix, iy);
+            int colIdx = GetImagePixelValueColorIndex(ix, iy);
+            ic->DrawString(pixelValueText, pseudo[colIdx], ix - 0.5f, iy - 0.5f);
+        }
+    }
+    ic->canvas->Font->Name = oldFontName;
+    ic->canvas->Font->Size = oldFontSize;
+    ic->canvas->Brush->Style = oldBrushStyle;
+}
+//---------------------------------------------------------------------------
+
+// 픽셀 표지 문자열
+String TImageBox::GetImagePixelValueText(int ix, int iy) {
+    if (imgBuf == NULL || ix < 0 || ix >= imgBw || iy < 0 || iy >= imgBh)
+        return EmptyStr;
+    BYTE* ptr = (BYTE*)imgBuf + ((INT64)imgBw * iy + ix) * imgBytepp;
+    if (imgBytepp == 1) {
+        return IntToStr(*ptr);
+    } else {
+        if (isImgbufFloat) {
+            if (imgBytepp == 4)
+                return FormatString(TEXT("%.2f"), *(float*)ptr);
+            else
+                return FormatString(TEXT("%.2f"), *(double*)ptr);
+        } else {
+            return FormatString(TEXT("%d,%d,%d"), ptr[2], ptr[1], ptr[0]);
+        }
+    }
+}
+
+// 픽셀 표시 컬러 인덱스
+int TImageBox::GetImagePixelValueColorIndex(int ix, int iy) {
+    if (imgBuf == NULL || ix < 0 || ix >= imgBw || iy < 0 || iy >= imgBh)
+        return 0;
+    BYTE* ptr = (BYTE*)imgBuf + ((INT64)imgBw * iy + ix) * imgBytepp;
+    if (imgBytepp == 1) {
+        return (*ptr) / 32;
+    } else {
+        if (isImgbufFloat) {
+            if (imgBytepp == 4)
+                return MIN(MAX((int)*(float*)ptr, 0), 255) / 32;
+            else
+                return MIN(MAX((int)*(double*)ptr, 0), 255) / 32;
+        } else {
+            return (ptr[2] + ptr[1] + ptr[0]) / 96;
+        }
+    }
+}
+
+// 중심선 표시
+void TImageBox::DrawCenterLine(TImageCanvas* ic) {
+    if (imgBuf == NULL)
+        return;
+    ic->canvas->Pen->Style = psDot;
+    ic->DrawLine(clYellow, imgBw / 2.0f - 0.5f, -0.5f, imgBw / 2.0f - 0.5f, imgBh - 0.5f);
+    ic->DrawLine(clYellow, -0.5f, imgBh / 2.0f - 0.5f, imgBw - 0.5f, imgBh / 2.0f - 0.5f);
+}
+
+namespace Imagebox {
+    void __fastcall PACKAGE Register() {
          TComponentClass classes[1] = {__classid(TImageBox)};
          RegisterComponents("Samples", classes, 0);
     }

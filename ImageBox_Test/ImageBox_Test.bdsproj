@@ -39,6 +39,10 @@
         <property category="build.platform" name="win32.default" value="win32b"/>
         <property category="build.platform" name="win32.enabled" value="1"/>
         <property category="build.platform" name="win32.win32b.enabled" value="1"/>
+        <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.listfile.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.objfile.merge" value="1"/>
+        <property category="win32.*.win32b.tasm32" name="param.xreffile.merge" value="1"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.1" value="_DEBUG"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.merge" value="1"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.enabled" value="1"/>
@@ -158,8 +162,8 @@
         <FILE FILENAME="FrmMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="FrmMain.h"/>
         <FILE FILENAME="Util.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Util" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Util.h"/>
         <FILE FILENAME="ImageBox_Test.rc" CONTAINERID="RCCompiler" LOCALCOMMAND="" UNITNAME="ImageBox_Test.rc" FORMNAME="ImageBox_Test.res" DESIGNCLASS=""/>
-        <FILE FILENAME="resource.h" CONTAINERID="" LOCALCOMMAND=""/>
-        <FILE FILENAME="Todo.txt" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="resource.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="Todo.txt" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>

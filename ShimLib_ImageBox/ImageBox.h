@@ -6,7 +6,6 @@
 #include <SysUtils.hpp>
 #include <Classes.hpp>
 #include <Controls.hpp>
-//#include <ImageCanvas.h>
 //---------------------------------------------------------------------------
 struct TPointf
 {
@@ -37,6 +36,8 @@ struct TRectf
 		return !(rc == *this);
 	}
 };
+
+class TImageCanvas;
 
 class PACKAGE TImageBox : public TCustomControl
 {
@@ -70,6 +71,11 @@ private:
     TPoint ptMove;
     TPoint ptDown;
     bool bDown;
+
+    void DrawPixelValue(TImageCanvas* ic);
+    int GetImagePixelValueColorIndex(int ix, int iy);
+    String GetImagePixelValueText(int ix, int iy);
+    void DrawCenterLine(TImageCanvas* ic);
 protected:
     //리사이즈 할때
     DYNAMIC void __fastcall Resize();

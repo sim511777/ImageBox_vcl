@@ -7,6 +7,7 @@
 class TImageCanvas {
 private:
     TImageBox* imgBox;
+public:
     TCanvas* canvas;
 public:
     TImageCanvas(TImageBox* _imgBox, TCanvas* _canvas);
