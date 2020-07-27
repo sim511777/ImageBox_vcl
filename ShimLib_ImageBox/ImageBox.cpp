@@ -107,7 +107,6 @@ int TColorToBGRA(TColor color) {
 
 __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner) {
     DoubleBuffered = true;
-        this->Align;
 
     imgBuf = NULL;
     imgBw = 0;
