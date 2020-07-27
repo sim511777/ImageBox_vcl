@@ -28,7 +28,7 @@ void TImageCanvas::DrawLine(TColor col, float x1, float y1, float x2, float y2) 
 void TImageCanvas::DrawString(String s, TColor col, TPointf pt) {
     canvas->Font->Color = col;
     TPoint dispPt = imgBox->ImgToDisp(pt);
-    canvas->TextOutA(dispPt.x, dispPt.y, s);
+    canvas->TextOut(dispPt.x, dispPt.y, s);
 }
 //---------------------------------------------------------------------------
 void TImageCanvas::DrawString(String s, TColor col, float x, float y) {

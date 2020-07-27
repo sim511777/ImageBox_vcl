@@ -102,7 +102,6 @@ public:
     // 화면 좌표 -> 이미지 좌표
     TPointf DispToImg(TPoint ptDisp);
 __published:
-    __property Color;
     __property Align;
 };
 //---------------------------------------------------------------------------

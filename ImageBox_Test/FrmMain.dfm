@@ -71,7 +71,6 @@ object FormMain: TFormMain
     Top = 0
     Width = 629
     Height = 599
-    Color = clGray
     Align = alClient
   end
   object dlgOpen: TOpenPictureDialog

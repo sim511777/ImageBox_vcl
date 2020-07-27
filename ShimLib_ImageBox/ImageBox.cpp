@@ -60,7 +60,7 @@ void CopyImageBufferZoom(void* imgBuf, int imgBw, int imgBh, int bytepp, bool bu
 
     for (int y = 0; y < dispBh; y++) {
         int siy = siys[y];
-        BYTE* sptr = (BYTE*)imgBuf + (INT64)imgBw * siy * bytepp;
+        BYTE* sptr = (BYTE*)imgBuf + (size_t)imgBw * siy * bytepp;
         int* dp = (int*)dispBmp->ScanLine[y];
         for (int x = 0; x < dispBw; x++, dp++) {
             int six = sixs[x];
@@ -224,7 +224,7 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y) {
     } else {
         Graphics::TBitmap* bmp = new Graphics::TBitmap();
         bmp->Width = 200;
-        bmp->Height = -Font->Height;
+        bmp->Height = Font->Size * 2;
         DrawCursorInfo(bmp->Canvas, 0, 0);
         Canvas->Draw(2, 2, bmp);
         delete bmp;
@@ -254,18 +254,17 @@ void __fastcall TImageBox::MouseWheelHandler(TMessage &Message) {
 //---------------------------------------------------------------------------
 void __fastcall TImageBox::Paint(void) {
     if (ComponentState.Contains(csDesigning)) {
-        Canvas->Brush->Color = Color;
+        Canvas->Brush->Color = clGray;
         Canvas->Font = Font;
         Canvas->FillRect(ClientRect);
-        Canvas->TextOut(3, 3, Name);
+        Canvas->TextOut(0, 0, Name);
         return;
     }
 
-    Canvas->Font = Font;
-    TImageCanvas ic(this, Canvas);
     double zoom = GetZoomFactor();
-    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(Color));
+    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(clGray));
     Canvas->Draw(0, 0, dispBmp);
+    TImageCanvas ic(this, Canvas);
     DrawPixelValue(&ic);
     DrawCenterLine(&ic);
     DrawCursorInfo(Canvas, 2, 2);
@@ -292,7 +291,7 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
     if (zoom < 16 || (imgBytepp != 1 && zoom < 48))
         return;
 
-    int fontSize = 0;
+    int fontSize;
     if (imgBytepp == 1) {
         if (zoom <= 17) fontSize = 6;
         else if (zoom <= 25) fontSize = 8;
@@ -303,12 +302,10 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
         else fontSize = 10;
     }
 
-    String oldFontName = ic->canvas->Font->Name;
-    int oldFontSize = ic->canvas->Font->Size;
-    TBrushStyle oldBrushStyle = ic->canvas->Brush->Style;
     ic->canvas->Font->Name = TEXT("arial");
     ic->canvas->Font->Size = fontSize;
     ic->canvas->Brush->Style = bsClear;
+
     TPointf ptImgLT = DispToImg(TPoint(0, 0));
     TPointf ptImgRB = DispToImg(TPoint(Width, Height));
     int ix1 = (int)ROUND(ptImgLT.x);
@@ -326,9 +323,6 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
             ic->DrawString(pixelValueText, pseudo[colIdx], ix - 0.5f, iy - 0.5f);
         }
     }
-    ic->canvas->Font->Name = oldFontName;
-    ic->canvas->Font->Size = oldFontSize;
-    ic->canvas->Brush->Style = oldBrushStyle;
 }
 //---------------------------------------------------------------------------
 
@@ -336,7 +330,7 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
 String TImageBox::GetImagePixelValueText(int ix, int iy) {
     if (imgBuf == NULL || ix < 0 || ix >= imgBw || iy < 0 || iy >= imgBh)
         return EmptyStr;
-    BYTE* ptr = (BYTE*)imgBuf + ((INT64)imgBw * iy + ix) * imgBytepp;
+    BYTE* ptr = (BYTE*)imgBuf + ((size_t)imgBw * iy + ix) * imgBytepp;
     if (imgBytepp == 1) {
         return IntToStr(*ptr);
     } else {
@@ -355,7 +349,7 @@ String TImageBox::GetImagePixelValueText(int ix, int iy) {
 int TImageBox::GetImagePixelValueColorIndex(int ix, int iy) {
     if (imgBuf == NULL || ix < 0 || ix >= imgBw || iy < 0 || iy >= imgBh)
         return 0;
-    BYTE* ptr = (BYTE*)imgBuf + ((INT64)imgBw * iy + ix) * imgBytepp;
+    BYTE* ptr = (BYTE*)imgBuf + ((size_t)imgBw * iy + ix) * imgBytepp;
     if (imgBytepp == 1) {
         return (*ptr) / 32;
     } else {
@@ -375,6 +369,7 @@ void TImageBox::DrawCenterLine(TImageCanvas* ic) {
     if (imgBuf == NULL)
         return;
     ic->canvas->Pen->Style = psDot;
+    ic->canvas->Brush->Style = bsClear;
     ic->DrawLine(clYellow, imgBw / 2.0f - 0.5f, -0.5f, imgBw / 2.0f - 0.5f, imgBh - 0.5f);
     ic->DrawLine(clYellow, -0.5f, imgBh / 2.0f - 0.5f, imgBw - 0.5f, imgBh / 2.0f - 0.5f);
 }
@@ -386,11 +381,17 @@ void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
     int iy = (int)ROUND(ptImg.y);
     String colText = GetImagePixelValueText(ix, iy);
     String zoomText = GetZoomText();
-    String text = FormatString("zoom=%s (%d,%d)=%s", zoomText, ix, iy, colText.c_str());
+    String text = FormatString(TEXT("zoom=%s (%d,%d)=%s"), zoomText, ix, iy, colText.c_str());
+
+    c->Font->Name = TEXT("MS Sans Serif");
+    c->Font->Size = 8;
+
     c->Brush->Color = clBlack;
-    TRect rect(ofsx, ofsy, ofsx + 200, ofsy - c->Font->Height);
-    c->FillRect(rect);
+    c->Brush->Style = bsSolid;
+    c->FillRect(TRect(ofsx, ofsy, ofsx + 200, ofsy + c->Font->Size * 2));
+
     c->Font->Color = clWhite;
+    c->Brush->Style = bsClear;
     c->TextOut(ofsx, ofsy, text);
 }
 //---------------------------------------------------------------------------
