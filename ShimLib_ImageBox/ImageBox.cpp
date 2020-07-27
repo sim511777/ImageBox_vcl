@@ -253,15 +253,16 @@ void __fastcall TImageBox::MouseWheelHandler(TMessage &Message) {
 //---------------------------------------------------------------------------
 void __fastcall TImageBox::Paint(void) {
     if (ComponentState.Contains(csDesigning)) {
-        Canvas->Brush->Color = clGray;
-        Canvas->Font = Font;
+        Canvas->Brush->Color = Color;
+        Canvas->Font->Name = Font->Name;
+        Canvas->Font->Size = Font->Size;
         Canvas->FillRect(ClientRect);
         Canvas->TextOut(0, 0, Name);
         return;
     }
 
     double zoom = GetZoomFactor();
-    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(clGray));
+    CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(Color));
     Canvas->Draw(0, 0, dispBmp);
     TImageCanvas ic(this, Canvas);
     DrawPixelValue(&ic);
@@ -382,8 +383,8 @@ void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
     String zoomText = GetZoomText();
     String text = FormatString(TEXT("zoom=%s (%d,%d)=%s"), zoomText, ix, iy, colText.c_str());
 
-    c->Font->Name = TEXT("MS Sans Serif");
-    c->Font->Size = 8;
+    c->Font->Name = Font->Name;
+    c->Font->Size = Font->Size;
 
     c->Brush->Color = clBlack;
     c->Brush->Style = bsSolid;

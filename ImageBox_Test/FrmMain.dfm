@@ -72,6 +72,15 @@ object FormMain: TFormMain
     Width = 629
     Height = 599
     Align = alClient
+    Color = clGray
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    ExplicitLeft = -6
   end
   object dlgOpen: TOpenPictureDialog
     Left = 768
