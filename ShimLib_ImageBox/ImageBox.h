@@ -102,7 +102,37 @@ public:
     // È­¸é ÁÂÇ¥ -> ÀÌ¹ÌÁö ÁÂÇ¥
     TPointf DispToImg(TPoint ptDisp);
 __published:
-    __property Align;
+	__property Align  = {default=0};
+	__property Anchors  = {default=3};
+	__property Color  = {default=-16777211};
+	__property Constraints ;
+	__property DragCursor  = {default=-12};
+	__property DragKind  = {default=0};
+	__property DragMode  = {default=0};
+	__property Enabled  = {default=1};
+	__property Font ;
+	__property ParentColor  = {default=1};
+	__property ParentFont  = {default=1};
+	__property ParentShowHint  = {default=1};
+	__property PopupMenu ;
+	__property ShowHint ;
+	__property Visible  = {default=1};
+	__property OnClick ;
+	__property OnContextPopup ;
+	__property OnDblClick ;
+	__property OnDragDrop ;
+	__property OnDragOver ;
+	__property OnEndDock ;
+	__property OnEndDrag ;
+	__property OnMouseActivate ;
+	__property OnMouseDown ;
+	__property OnMouseEnter ;
+	__property OnMouseLeave ;
+	__property OnMouseMove ;
+	__property OnMouseUp ;
+	//__property Classes::TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
+	__property OnStartDock ;
+	__property OnStartDrag ;
 };
 //---------------------------------------------------------------------------
 #endif
