@@ -28,6 +28,7 @@ __published:	// IDE-managed Components
     void __fastcall btnLenna8Click(TObject *Sender);
     void __fastcall btnLenna24Click(TObject *Sender);
     void __fastcall btnChessClick(TObject *Sender);
+    void __fastcall imgBoxPaint(TObject *Sender);
 private:	// User declarations
     BYTE* imgBuf;
     int bw;

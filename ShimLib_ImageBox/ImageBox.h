@@ -72,6 +72,7 @@ private:
     TPoint ptDown;
     bool bDown;
 
+    TNotifyEvent FOnPaint;
     void DrawPixelValue(TImageCanvas* ic);
     int GetImagePixelValueColorIndex(int ix, int iy);
     String GetImagePixelValueText(int ix, int iy);
@@ -101,6 +102,8 @@ public:
     TRect ImgToDisp(TRectf rectImg);
     // 화면 좌표 -> 이미지 좌표
     TPointf DispToImg(TPoint ptDisp);
+    // OnPaint에서 사용하기 위한 Canvas 노출
+    __property Canvas;
 __published:
 	__property Align  = {default=0};
 	__property Anchors  = {default=3};
@@ -130,7 +133,7 @@ __published:
 	__property OnMouseLeave ;
 	__property OnMouseMove ;
 	__property OnMouseUp ;
-	//__property Classes::TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
+	__property Classes::TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
 	__property OnStartDock ;
 	__property OnStartDrag ;
 };

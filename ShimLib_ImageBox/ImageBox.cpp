@@ -189,10 +189,10 @@ TPoint TImageBox::ImgToDisp(TPointf ptImg) {
 TRect TImageBox::ImgToDisp(TRectf rectImg) {
     double zoom = GetZoomFactor();
     int dispL = (int)floor((rectImg.left + 0.5) * zoom + PtPan.x);
-    int dispR = (int)floor((rectImg.right + 0.5) * zoom + PtPan.y);
-    int dispT = (int)floor((rectImg.top + 0.5) * zoom + PtPan.x);
+    int dispT = (int)floor((rectImg.top + 0.5) * zoom + PtPan.y);
+    int dispR = (int)floor((rectImg.right + 0.5) * zoom + PtPan.x);
     int dispB = (int)floor((rectImg.bottom + 0.5) * zoom + PtPan.y);
-    return TRect(dispL, dispR, dispT, dispB);
+    return TRect(dispL, dispT, dispR, dispB);
 }
 //---------------------------------------------------------------------------
 TPointf TImageBox::DispToImg(TPoint ptDisp) {
@@ -267,6 +267,8 @@ void __fastcall TImageBox::Paint(void) {
     TImageCanvas ic(this, Canvas);
     DrawPixelValue(&ic);
     DrawCenterLine(&ic);
+    if (FOnPaint != NULL)
+        FOnPaint(this);
     DrawCursorInfo(Canvas, 2, 2);
 }
 //---------------------------------------------------------------------------

@@ -80,7 +80,7 @@ object FormMain: TFormMain
     Font.Style = []
     ParentColor = False
     ParentFont = False
-    ExplicitLeft = -6
+    OnPaint = imgBoxPaint
   end
   object dlgOpen: TOpenPictureDialog
     Left = 768
