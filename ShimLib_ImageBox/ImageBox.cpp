@@ -402,3 +402,8 @@ void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
     c->TextOut(ofsx, ofsy, text);
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TImageBox::WmEraseBkgnd(TWMEraseBkgnd& Message) {
+    Message.Result = 1;
+}
+//---------------------------------------------------------------------------

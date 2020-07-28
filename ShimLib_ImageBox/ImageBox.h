@@ -78,6 +78,10 @@ private:
     String GetImagePixelValueText(int ix, int iy);
     void DrawCenterLine(TImageCanvas* ic);
     void DrawCursorInfo(TCanvas* c, int ofsx, int ofsy);
+    void __fastcall WmEraseBkgnd(TWMEraseBkgnd& Message);
+BEGIN_MESSAGE_MAP
+    MESSAGE_HANDLER(WM_ERASEBKGND, TWMEraseBkgnd, WmEraseBkgnd)
+END_MESSAGE_MAP(TCustomControl)
 protected:
     //리사이즈 할때
     DYNAMIC void __fastcall Resize();

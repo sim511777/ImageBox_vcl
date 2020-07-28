@@ -7,4 +7,4 @@ ok 5. 프로퍼티 노출
 ok 6. 이벤트 노출
   - Paint, Mouse up/down/move, Panel 과 비교하여 필요한 여러것들
 ok 7. TImageCanvas 클래스 추가
-8. 배경 그리지 않도록 수정
+ok 8. 배경 그리지 않도록 수정
