@@ -267,8 +267,13 @@ void __fastcall TImageBox::Paint(void) {
     TImageCanvas ic(this, Canvas);
     DrawPixelValue(&ic);
     DrawCenterLine(&ic);
-    if (FOnPaint != NULL)
+    if (FOnPaint != NULL) {
+        Canvas->Pen->Style = psSolid;
+        Canvas->Brush->Style = bsClear;
+        Canvas->Font->Name = Font->Name;
+        Canvas->Font->Size = Font->Size;
         FOnPaint(this);
+    }
     DrawCursorInfo(Canvas, 2, 2);
 }
 //---------------------------------------------------------------------------
