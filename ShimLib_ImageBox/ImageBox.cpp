@@ -122,6 +122,10 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner) {
     ptMove = TPoint(-1, -1);
     ptDown;
     bDown = false;
+
+    FUseDrawPixelValue = true;
+    FUseDrawCenterLine = true;
+    FUseDrawCursorInfo = true;
 }
 //---------------------------------------------------------------------------
 TPoint TImageBox::GetPtPan() {
@@ -221,12 +225,14 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y) {
         ptDown = TPoint(X, Y);
         Invalidate();
     } else {
-        Graphics::TBitmap* bmp = new Graphics::TBitmap();
-        bmp->Width = 200;
-        bmp->Height = Font->Size * 2;
-        DrawCursorInfo(bmp->Canvas, 0, 0);
-        Canvas->Draw(2, 2, bmp);
-        delete bmp;
+        if (FUseDrawCursorInfo) {
+            Graphics::TBitmap* bmp = new Graphics::TBitmap();
+            bmp->Width = 200;
+            bmp->Height = Font->Size * 2;
+            DrawCursorInfo(bmp->Canvas, 0, 0);
+            Canvas->Draw(2, 2, bmp);
+            delete bmp;
+        }
     }
     TCustomControl::MouseMove(Shift, X, Y);
 }
@@ -265,8 +271,10 @@ void __fastcall TImageBox::Paint(void) {
     CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(Color));
     Canvas->Draw(0, 0, dispBmp);
     TImageCanvas ic(this, Canvas);
-    DrawPixelValue(&ic);
-    DrawCenterLine(&ic);
+    if (FUseDrawPixelValue)
+        DrawPixelValue(&ic);
+    if (FUseDrawCenterLine)
+        DrawCenterLine(&ic);
     if (FOnPaint != NULL) {
         Canvas->Pen->Style = psSolid;
         Canvas->Brush->Style = bsClear;
@@ -274,7 +282,8 @@ void __fastcall TImageBox::Paint(void) {
         Canvas->Font->Size = Font->Size;
         FOnPaint(this);
     }
-    DrawCursorInfo(Canvas, 2, 2);
+    if (FUseDrawCursorInfo)
+        DrawCursorInfo(Canvas, 2, 2);
 }
 //---------------------------------------------------------------------------
 

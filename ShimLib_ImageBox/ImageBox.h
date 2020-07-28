@@ -72,6 +72,11 @@ private:
     TPoint ptDown;
     bool bDown;
 
+    // ¿É¼Ç
+    bool FUseDrawPixelValue;
+    bool FUseDrawCenterLine;
+    bool FUseDrawCursorInfo;
+
     TNotifyEvent FOnPaint;
     void DrawPixelValue(TImageCanvas* ic);
     int GetImagePixelValueColorIndex(int ix, int iy);
@@ -140,6 +145,9 @@ __published:
 	__property Classes::TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
 	__property OnStartDock ;
 	__property OnStartDrag ;
+    __property bool UseDrawPixelValue = {read=FUseDrawPixelValue, write=FUseDrawPixelValue, default=true};
+    __property bool UseDrawCenterLine = {read=FUseDrawCenterLine, write=FUseDrawCenterLine, default=true};
+    __property bool UseDrawCursorInfo = {read=FUseDrawCursorInfo, write=FUseDrawCursorInfo, default=true};
 };
 //---------------------------------------------------------------------------
 #endif
