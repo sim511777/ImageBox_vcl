@@ -156,14 +156,14 @@ double TImageBox::GetZoomFactor() {
     int exp_num;
     int c;
     GetZoomFactorComponents(exp_num, c);
-    return c * pow(2, exp_num);
+    return c * pow(2.0, exp_num);
 }
 //---------------------------------------------------------------------------
 String TImageBox::GetZoomText() {
     int exp_num;
     int c;
     GetZoomFactorComponents(exp_num, c);
-    return (exp_num >= 0) ? IntToStr(c * (int)pow(2, exp_num)) : IntToStr(c) + "/" + IntToStr((int)pow(2, -exp_num));
+    return (exp_num >= 0) ? IntToStr(c * (int)pow(2.0, exp_num)) : IntToStr(c) + "/" + IntToStr((int)pow(2.0, -exp_num));
 }
 //---------------------------------------------------------------------------
 void TImageBox::SetImageBuffer(void* _buf, int _bw, int _bh, int _bytepp, bool _isFloat) {

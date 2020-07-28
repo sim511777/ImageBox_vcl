@@ -1,6 +1,6 @@
 //---------------------------------------------------------------------------
 
-#include <basepch.h>
+#include <System.hpp>
 #pragma hdrstop
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
@@ -10,7 +10,7 @@
 
 
 #pragma argsused
-int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void*)
+extern "C" int _libmain(unsigned long reason)
 {
     return 1;
 }

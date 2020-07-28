@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{BB4B29AA-CA2A-4D4B-BAE1-E2F69353B305}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ShimLib_ImageBox\ShimLib_ImageBox.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ImageBox_Test\ImageBox_Test.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ShimLib_ImageBox">
+        <MSBuild Projects="ShimLib_ImageBox\ShimLib_ImageBox.cbproj"/>
+    </Target>
+    <Target Name="ShimLib_ImageBox:Clean">
+        <MSBuild Projects="ShimLib_ImageBox\ShimLib_ImageBox.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShimLib_ImageBox:Make">
+        <MSBuild Projects="ShimLib_ImageBox\ShimLib_ImageBox.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ImageBox_Test">
+        <MSBuild Projects="ImageBox_Test\ImageBox_Test.cbproj"/>
+    </Target>
+    <Target Name="ImageBox_Test:Clean">
+        <MSBuild Projects="ImageBox_Test\ImageBox_Test.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ImageBox_Test:Make">
+        <MSBuild Projects="ImageBox_Test\ImageBox_Test.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ShimLib_ImageBox;ImageBox_Test"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ShimLib_ImageBox:Clean;ImageBox_Test:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ShimLib_ImageBox:Make;ImageBox_Test:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
