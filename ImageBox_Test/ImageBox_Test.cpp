@@ -11,7 +11,6 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
     try
     {
          Application->Initialize();
-         Application->MainFormOnTaskBar = true;
          Application->CreateForm(__classid(TFormMain), &FormMain);
          Application->Run();
     }
