@@ -397,7 +397,7 @@ void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
     int iy = (int)ROUND(ptImg.y);
     String colText = GetImagePixelValueText(ix, iy);
     String zoomText = GetZoomText();
-    String text = FormatString(TEXT("zoom=%s (%d,%d)=%s"), zoomText, ix, iy, colText.c_str());
+    String text = FormatString(TEXT("zoom=%s (%d,%d)=%s"), zoomText.c_str(), ix, iy, colText.c_str());
 
     c->Font->Name = Font->Name;
     c->Font->Size = Font->Size;
