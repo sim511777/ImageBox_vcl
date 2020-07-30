@@ -136,10 +136,7 @@ __published:
 	__property OnDragOver ;
 	__property OnEndDock ;
 	__property OnEndDrag ;
-	__property OnMouseActivate ;
 	__property OnMouseDown ;
-	__property OnMouseEnter ;
-	__property OnMouseLeave ;
 	__property OnMouseMove ;
 	__property OnMouseUp ;
 	__property Classes::TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
