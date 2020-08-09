@@ -7,7 +7,6 @@
 
 #include "FrmMain.h"
 #include "resource.h"
-#include "ImageCanvas.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "ImageBox"
@@ -91,10 +90,9 @@ void __fastcall TFormMain::btnChessClick(TObject *Sender)
 void __fastcall TFormMain::imgBoxPaint(TObject *Sender)
 {
     TCanvas* c = imgBox->Canvas;
-    TImageCanvas ic(imgBox, c);
-    ic.DrawLine(clRed, 0, 0, 8, 8);
-    ic.DrawRectangle(clRed, 8, 8, 12, 12);
-    ic.DrawString(TEXT("Hello, World"), clLime, 12, 12);
+    imgBox->DrawLine(c, clRed, 0, 0, 8, 8);
+    imgBox->DrawRectangle(c, clRed, 8, 8, 12, 12);
+    imgBox->DrawString(c, TEXT("Hello, World"), clLime, 12, 12);
 }
 //---------------------------------------------------------------------------
 

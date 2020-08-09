@@ -11,7 +11,6 @@
 #define ROUND(x) (floor(x + 0.5))
 
 #include "ImageBox.h"
-#include "ImageCanvas.h"
 
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
@@ -270,11 +269,10 @@ void __fastcall TImageBox::Paint(void) {
     double zoom = GetZoomFactor();
     CopyImageBufferZoom(imgBuf, imgBw, imgBh, imgBytepp, isImgbufFloat, dispBmp, ptPan.x, ptPan.y, zoom, TColorToBGRA(Color));
     Canvas->Draw(0, 0, dispBmp);
-    TImageCanvas ic(this, Canvas);
     if (FUseDrawPixelValue)
-        DrawPixelValue(&ic);
+        DrawPixelValue(Canvas);
     if (FUseDrawCenterLine)
-        DrawCenterLine(&ic);
+        DrawCenterLine(Canvas);
     if (FOnPaint != NULL) {
         Canvas->Pen->Style = psSolid;
         Canvas->Brush->Style = bsClear;
@@ -300,7 +298,7 @@ TColor pseudo[8] = {
     clBlack,    // 224~255
 };
 
-void TImageBox::DrawPixelValue(TImageCanvas* ic) {
+void TImageBox::DrawPixelValue(TCanvas* cnv) {
     if (imgBuf == NULL)
         return;
     double zoom = GetZoomFactor();
@@ -318,9 +316,9 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
         else fontSize = 10;
     }
 
-    ic->canvas->Font->Name = TEXT("arial");
-    ic->canvas->Font->Size = fontSize;
-    ic->canvas->Brush->Style = bsClear;
+    cnv->Font->Name = TEXT("arial");
+    cnv->Font->Size = fontSize;
+    cnv->Brush->Style = bsClear;
 
     TPointf ptImgLT = DispToImg(TPoint(0, 0));
     TPointf ptImgRB = DispToImg(TPoint(Width, Height));
@@ -336,7 +334,7 @@ void TImageBox::DrawPixelValue(TImageCanvas* ic) {
         for (int ix = ix1; ix <= ix2; ix++) {
             String pixelValueText = GetImagePixelValueText(ix, iy);
             int colIdx = GetImagePixelValueColorIndex(ix, iy);
-            ic->DrawString(pixelValueText, pseudo[colIdx], ix - 0.5f, iy - 0.5f);
+            DrawString(cnv, pixelValueText, pseudo[colIdx], ix - 0.5f, iy - 0.5f);
         }
     }
 }
@@ -381,17 +379,17 @@ int TImageBox::GetImagePixelValueColorIndex(int ix, int iy) {
 }
 
 // 중심선 표시
-void TImageBox::DrawCenterLine(TImageCanvas* ic) {
+void TImageBox::DrawCenterLine(TCanvas* cnv) {
     if (imgBuf == NULL)
         return;
-    ic->canvas->Pen->Style = psDot;
-    ic->canvas->Brush->Style = bsClear;
-    ic->DrawLine(clYellow, imgBw / 2.0f - 0.5f, -0.5f, imgBw / 2.0f - 0.5f, imgBh - 0.5f);
-    ic->DrawLine(clYellow, -0.5f, imgBh / 2.0f - 0.5f, imgBw - 0.5f, imgBh / 2.0f - 0.5f);
+    cnv->Pen->Style = psDot;
+    cnv->Brush->Style = bsClear;
+    DrawLine(cnv, clYellow, imgBw / 2.0f - 0.5f, -0.5f, imgBw / 2.0f - 0.5f, imgBh - 0.5f);
+    DrawLine(cnv, clYellow, -0.5f, imgBh / 2.0f - 0.5f, imgBw - 0.5f, imgBh / 2.0f - 0.5f);
 }
 
 // 커서 정보 표시
-void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
+void TImageBox::DrawCursorInfo(TCanvas* cnv, int ofsx, int ofsy) {
     TPointf ptImg = DispToImg(ptMove);
     int ix = (int)ROUND(ptImg.x);
     int iy = (int)ROUND(ptImg.y);
@@ -399,20 +397,87 @@ void TImageBox::DrawCursorInfo(TCanvas* c, int ofsx, int ofsy) {
     String zoomText = GetZoomText();
     String text = FormatString(TEXT("zoom=%s (%d,%d)=%s"), zoomText.c_str(), ix, iy, colText.c_str());
 
-    c->Font->Name = Font->Name;
-    c->Font->Size = Font->Size;
+    cnv->Font->Name = Font->Name;
+    cnv->Font->Size = Font->Size;
 
-    c->Brush->Color = clBlack;
-    c->Brush->Style = bsSolid;
-    c->FillRect(TRect(ofsx, ofsy, ofsx + 200, ofsy + c->Font->Size * 2));
+    cnv->Brush->Color = clBlack;
+    cnv->Brush->Style = bsSolid;
+    cnv->FillRect(TRect(ofsx, ofsy, ofsx + 200, ofsy + cnv->Font->Size * 2));
 
-    c->Font->Color = clWhite;
-    c->Brush->Style = bsClear;
-    c->TextOut(ofsx, ofsy, text);
+    cnv->Font->Color = clWhite;
+    cnv->Brush->Style = bsClear;
+    cnv->TextOut(ofsx, ofsy, text);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TImageBox::WmEraseBkgnd(TWMEraseBkgnd& Message) {
     Message.Result = 1;
+}
+//---------------------------------------------------------------------------
+
+void TImageBox::DrawLine(TCanvas *cnv, TColor col, TPointf pt1, TPointf pt2) {
+    cnv->Pen->Color = col;
+    TPoint dispPt1 = ImgToDisp(pt1);
+    TPoint dispPt2 = ImgToDisp(pt2);
+    cnv->MoveTo(dispPt1.x, dispPt1.y);
+    cnv->LineTo(dispPt2.x, dispPt2.y);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawLine(TCanvas *cnv, TColor col, float x1, float y1, float x2, float y2) {
+    this->DrawLine(cnv, col, TPointf(x1, y1), TPointf(x2, y2));
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawString(TCanvas *cnv, String s, TColor col, TPointf pt) {
+    cnv->Font->Color = col;
+    TPoint dispPt = ImgToDisp(pt);
+    cnv->TextOut(dispPt.x, dispPt.y, s);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawString(TCanvas *cnv, String s, TColor col, float x, float y) {
+    this->DrawString(cnv, s, col, TPointf(x, y));
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawEllipse(TCanvas *cnv, TColor col, TRectf rect) {
+    cnv->Pen->Color = col;
+    TRect dispRect = ImgToDisp(rect);
+    cnv->Ellipse(dispRect);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawEllipse(TCanvas *cnv, TColor col, float left, float top, float right, float bottom) {
+    this->DrawEllipse(cnv, col, TRectf(left, top, right, bottom));
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawRectangle(TCanvas *cnv, TColor col, TRectf rect) {
+    cnv->Pen->Color = col;
+    TRect dispRect = ImgToDisp(rect);
+    cnv->Rectangle(dispRect);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawRectangle(TCanvas *cnv, TColor col, float left, float top, float right, float bottom) {
+    this->DrawRectangle(cnv, col, TRectf(left, top, right, bottom));
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawCircle(TCanvas *cnv, TColor col, float x, float y, float r) {
+    float left = x - r;
+    float top = y - r;
+    float right = x + r;
+    float bottom = y + r;
+    this->DrawEllipse(cnv, col, left, top, right, bottom);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawCircle(TCanvas *cnv, TColor col, TPointf pt, float r) {
+    this->DrawCircle(cnv, col, pt.x, pt.y, r);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawSquare(TCanvas *cnv, TColor col, float x, float y, float r) {
+    float left = x - r;
+    float top = y - r;
+    float right = x + r;
+    float bottom = y + r;
+    this->DrawRectangle(cnv, col, left, top, right, bottom);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawSquare(TCanvas *cnv, TColor col, TPointf pt, float r) {
+    this->DrawSquare(cnv, col, pt.x, pt.y, r);
 }
 //---------------------------------------------------------------------------

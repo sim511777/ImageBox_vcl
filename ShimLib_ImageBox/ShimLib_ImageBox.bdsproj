@@ -159,7 +159,6 @@
         <FILE FILENAME="ShimLib_ImageBox.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="ShimLib_ImageBox.res" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="..\ImageBox_Test\vcl.bpi" CONTAINERID="BPITool" LOCALCOMMAND="" UNITNAME="vcl" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="ImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageBox" FORMNAME="" DESIGNCLASS=""/>
-        <FILE FILENAME="ImageCanvas.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageCanvas" FORMNAME="" DESIGNCLASS="" ADDITIONAL="ImageCanvas.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>

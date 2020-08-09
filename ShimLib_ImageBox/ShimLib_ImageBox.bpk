@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ShimLib_ImageBox.bpl"/>
-    <OBJFILES value="ShimLib_ImageBox.obj ImageBox.obj ImageCanvas.obj"/>
+    <OBJFILES value="ShimLib_ImageBox.obj ImageBox.obj"/>
     <RESFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
@@ -45,7 +45,6 @@
       <FILE FILENAME="ShimLib_ImageBox.cpp" FORMNAME="" UNITNAME="ShimLib_ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ImageBox_Test\rtl.bpi" FORMNAME="" UNITNAME="rtl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ImageCanvas.cpp" FORMNAME="" UNITNAME="ImageCanvas" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="..\ImageBox_Test\vcl.bpi" FORMNAME="" UNITNAME="vcl" CONTAINERID="BPITool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>

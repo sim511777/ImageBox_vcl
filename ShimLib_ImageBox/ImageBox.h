@@ -37,8 +37,6 @@ struct TRectf
 	}
 };
 
-class TImageCanvas;
-
 class PACKAGE TImageBox : public TCustomControl
 {
 private:
@@ -78,10 +76,10 @@ private:
     bool FUseDrawCursorInfo;
 
     TNotifyEvent FOnPaint;
-    void DrawPixelValue(TImageCanvas* ic);
+    void DrawPixelValue(TCanvas* c);
     int GetImagePixelValueColorIndex(int ix, int iy);
     String GetImagePixelValueText(int ix, int iy);
-    void DrawCenterLine(TImageCanvas* ic);
+    void DrawCenterLine(TCanvas* c);
     void DrawCursorInfo(TCanvas* c, int ofsx, int ofsy);
     void __fastcall WmEraseBkgnd(TWMEraseBkgnd& Message);
 BEGIN_MESSAGE_MAP
@@ -113,6 +111,21 @@ public:
     TPointf DispToImg(TPoint ptDisp);
     // OnPaint에서 사용하기 위한 Canvas 노출
     __property Canvas;
+
+    // ==== GDI 함수 ====
+    void DrawLine(TCanvas *cnv, TColor col, TPointf pt1, TPointf pt2);
+    void DrawLine(TCanvas *cnv, TColor col, float x1, float y1, float x2, float y2);
+    void DrawString(TCanvas *cnv, String s, TColor col, TPointf pt);
+    void DrawString(TCanvas *cnv, String s, TColor col, float x, float y);
+    void DrawEllipse(TCanvas *cnv, TColor col, TRectf rect);
+    void DrawEllipse(TCanvas *cnv, TColor col, float left, float top, float right, float bottom);
+    void DrawRectangle(TCanvas *cnv, TColor col, TRectf rect);
+    void DrawRectangle(TCanvas *cnv, TColor col, float left, float top, float right, float bottom);
+    void DrawCircle(TCanvas *cnv, TColor col, float x, float y, float r);
+    void DrawCircle(TCanvas *cnv, TColor col, TPointf pt, float r);
+    void DrawSquare(TCanvas *cnv, TColor col, float x, float y, float r);
+    void DrawSquare(TCanvas *cnv, TColor col, TPointf pt, float r);
+
 __published:
 	__property Align  = {default=0};
 	__property Anchors  = {default=3};

@@ -110,10 +110,6 @@
             <DependentOn>ImageBox.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="ImageCanvas.cpp">
-            <DependentOn>ImageCanvas.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
         <PackageImport Include="rtl.bpi">
             <BuildOrder>1</BuildOrder>
         </PackageImport>
