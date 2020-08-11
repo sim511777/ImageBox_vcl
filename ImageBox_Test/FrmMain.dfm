@@ -1,9 +1,9 @@
 object FormMain: TFormMain
   Left = 0
   Top = 0
+  Width = 870
+  Height = 638
   Caption = 'FormMain'
-  ClientHeight = 599
-  ClientWidth = 854
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -58,12 +58,21 @@ object FormMain: TFormMain
     end
     object btnChess: TButton
       Left = 22
-      Top = 166
+      Top = 198
       Width = 115
       Height = 25
       Caption = 'Chess'
       TabOrder = 4
       OnClick = btnChessClick
+    end
+    object btnLenna32: TButton
+      Left = 22
+      Top = 167
+      Width = 115
+      Height = 25
+      Caption = 'Lenna_32'
+      TabOrder = 5
+      OnClick = btnLenna32Click
     end
   end
   object imgBox: TImageBox

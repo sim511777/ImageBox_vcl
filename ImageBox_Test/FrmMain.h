@@ -23,12 +23,14 @@ __published:	// IDE-managed Components
     TButton *btnLenna24;
     TButton *btnChess;
     TOpenPictureDialog *dlgOpen;
+    TButton *btnLenna32;
     void __fastcall btnResetZoomClick(TObject *Sender);
     void __fastcall btnOpenClick(TObject *Sender);
     void __fastcall btnLenna8Click(TObject *Sender);
     void __fastcall btnLenna24Click(TObject *Sender);
     void __fastcall btnChessClick(TObject *Sender);
     void __fastcall imgBoxPaint(TObject *Sender);
+    void __fastcall btnLenna32Click(TObject *Sender);
 private:	// User declarations
     BYTE* imgBuf;
     int bw;

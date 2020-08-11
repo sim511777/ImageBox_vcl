@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ImageBox_Test.exe"/>
     <OBJFILES value="ImageBox_Test.obj FrmMain.obj Util.obj"/>
-    <RESFILES value="ImageBox_Test.res"/>
+    <RESFILES value="resource.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) FrmMain.dfm"/>
     <LIBFILES value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects\Lib\ShimLib_ImageBox.lib&quot;"/>
@@ -53,7 +53,7 @@
       <FILE FILENAME="Util.cpp" FORMNAME="" UNITNAME="Util.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="C:\Program Files (x86)\Borland\CBuilder6\Projects\Lib\ShimLib_ImageBox.lib" FORMNAME="" UNITNAME="ShimLib_ImageBox.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="resource.h" FORMNAME="" UNITNAME="resource.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ImageBox_Test.rc" FORMNAME="" UNITNAME="ImageBox_Test.rc" CONTAINERID="RC" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="resource.res" FORMNAME="" UNITNAME="resource.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

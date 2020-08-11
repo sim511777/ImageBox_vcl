@@ -96,3 +96,12 @@ void __fastcall TFormMain::imgBoxPaint(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFormMain::btnLenna32Click(TObject *Sender)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_LENNA_32);
+    SetImage(bmp);
+    delete bmp;
+}
+//---------------------------------------------------------------------------
+
