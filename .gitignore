@@ -72,3 +72,5 @@ Release/
 modules/
 /ImageBox_Test/ImageBox_Test.res
 *.ddp
+Release_Build/
+Debug_Build/
