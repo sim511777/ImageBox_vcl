@@ -121,11 +121,15 @@ public:
     void DrawEllipse(TCanvas *cnv, TColor col, float left, float top, float right, float bottom);
     void DrawRectangle(TCanvas *cnv, TColor col, TRectf rect);
     void DrawRectangle(TCanvas *cnv, TColor col, float left, float top, float right, float bottom);
-    void DrawCircle(TCanvas *cnv, TColor col, float x, float y, float r);
-    void DrawCircle(TCanvas *cnv, TColor col, TPointf pt, float r);
-    void DrawSquare(TCanvas *cnv, TColor col, float x, float y, float r);
-    void DrawSquare(TCanvas *cnv, TColor col, TPointf pt, float r);
-
+    void DrawCircle(TCanvas *cnv, TColor col, TPointf pt, float size, bool pixelSize);
+    void DrawCircle(TCanvas *cnv, TColor col, float x, float y, float size, bool pixelSize);
+    void DrawSquare(TCanvas *cnv, TColor col, TPointf pt, float size, bool pixelSize);
+    void DrawSquare(TCanvas *cnv, TColor col, float x, float y, float size, bool pixelSize);
+    void DrawCross(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize);
+    void DrawCross(TCanvas* cnv, TColor col, float x, float y, float size, bool pixelSize);
+    void DrawPlus(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize);
+    void DrawPlus(TCanvas* cnv, TColor col, float x, float y, float size, bool pixelSize);
+    
 __published:
 	__property Align  = {default=0};
 	__property Anchors  = {default=3};

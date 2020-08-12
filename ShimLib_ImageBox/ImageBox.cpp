@@ -457,27 +457,58 @@ void TImageBox::DrawRectangle(TCanvas *cnv, TColor col, float left, float top, f
     this->DrawRectangle(cnv, col, TRectf(left, top, right, bottom));
 }
 //---------------------------------------------------------------------------
-void TImageBox::DrawCircle(TCanvas *cnv, TColor col, float x, float y, float r) {
-    float left = x - r;
-    float top = y - r;
-    float right = x + r;
-    float bottom = y + r;
-    this->DrawEllipse(cnv, col, left, top, right, bottom);
+void TImageBox::DrawCircle(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize) {
+    cnv->Pen->Color = col;
+    TPoint ptd = ImgToDisp(pt);
+    int sized = (pixelSize) ? (int)size : (int)ROUND(size * GetZoomFactor());
+    int half = sized / 2;
+    cnv->Ellipse(ptd.x - half, ptd.y - half, ptd.x + half, ptd.y + half);
 }
 //---------------------------------------------------------------------------
-void TImageBox::DrawCircle(TCanvas *cnv, TColor col, TPointf pt, float r) {
-    this->DrawCircle(cnv, col, pt.x, pt.y, r);
+void TImageBox::DrawCircle(TCanvas* cnv, TColor col, float x, float y, float r, bool pixelSize) {
+    this->DrawCircle(cnv, col, TPointf(x, y), r, pixelSize);
 }
 //---------------------------------------------------------------------------
-void TImageBox::DrawSquare(TCanvas *cnv, TColor col, float x, float y, float r) {
-    float left = x - r;
-    float top = y - r;
-    float right = x + r;
-    float bottom = y + r;
-    this->DrawRectangle(cnv, col, left, top, right, bottom);
+void TImageBox::DrawSquare(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize) {
+    cnv->Pen->Color = col;
+    TPoint ptd = ImgToDisp(pt);
+    int sized = (pixelSize) ? (int)size : (int)ROUND(size * GetZoomFactor());
+    int half = sized / 2;
+    cnv->Rectangle(ptd.x - half, ptd.y - half, ptd.x + half, ptd.y + half);
 }
 //---------------------------------------------------------------------------
-void TImageBox::DrawSquare(TCanvas *cnv, TColor col, TPointf pt, float r) {
-    this->DrawSquare(cnv, col, pt.x, pt.y, r);
+void TImageBox::DrawSquare(TCanvas* cnv, TColor col, float x, float y, float r, bool pixelSize) {
+    this->DrawSquare(cnv, col, TPointf(x, y), r, pixelSize);
 }
 //---------------------------------------------------------------------------
+void TImageBox::DrawCross(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize) {
+    cnv->Pen->Color = col;
+    TPoint ptd = ImgToDisp(pt);
+    int sized = (pixelSize) ? (int)size : (int)ROUND(size * GetZoomFactor());
+    int half = sized / 2;
+    cnv->MoveTo(ptd.x - half, ptd.y - half);
+    cnv->LineTo(ptd.x + half, ptd.y + half);
+    cnv->MoveTo(ptd.x - half, ptd.y + half);
+    cnv->LineTo(ptd.x + half, ptd.y - half);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawCross(TCanvas* cnv, TColor col, float x, float y, float r, bool pixelSize) {
+    this->DrawCross(cnv, col, TPointf(x, y), r, pixelSize);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawPlus(TCanvas* cnv, TColor col, TPointf pt, float size, bool pixelSize) {
+    cnv->Pen->Color = col;
+    TPoint ptd = ImgToDisp(pt);
+    int sized = (pixelSize) ? (int)size : (int)ROUND(size * GetZoomFactor());
+    int half = sized / 2;
+    cnv->MoveTo(ptd.x, ptd.y - half);
+    cnv->LineTo(ptd.x, ptd.y + half);
+    cnv->MoveTo(ptd.x - half, ptd.y);
+    cnv->LineTo(ptd.x + half, ptd.y);
+}
+//---------------------------------------------------------------------------
+void TImageBox::DrawPlus(TCanvas* cnv, TColor col, float x, float y, float r, bool pixelSize) {
+    this->DrawPlus(cnv, col, TPointf(x, y), r, pixelSize);
+}
+//---------------------------------------------------------------------------
+

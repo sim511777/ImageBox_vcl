@@ -93,6 +93,18 @@ void __fastcall TFormMain::imgBoxPaint(TObject *Sender)
     imgBox->DrawLine(c, clRed, 0, 0, 8, 8);
     imgBox->DrawRectangle(c, clRed, 8, 8, 12, 12);
     imgBox->DrawString(c, TEXT("Hello, World"), clLime, 12, 12);
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            //imgBox->DrawCircle(c, clLime, j, i, 1, false);
+            //imgBox->DrawSquare(c, clLime, j, i, 1, false);
+            //imgBox->DrawCross(c, clLime, j, i, 1, false);
+            //imgBox->DrawPlus(c, clLime, j, i, 1, false);
+            //imgBox->DrawCircle(c, clLime, j, i, 8, true);
+            //imgBox->DrawSquare(c, clLime, j, i, 8, true);
+            //imgBox->DrawCross(c, clLime, j, i, 8, true);
+            //imgBox->DrawPlus(c, clLime, j, i, 8, true);
+        }
+    }
 }
 //---------------------------------------------------------------------------
 
